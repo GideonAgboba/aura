@@ -36,7 +36,7 @@ Aura is a simple React Native emotion tracking example application designed to h
 
 ```bash
 
-git clone [repository-url]
+git clone https://github.com/GideonAgboba/aura.git
 
 cd aura
 
