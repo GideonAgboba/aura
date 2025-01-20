@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "paths": {
+      "@screens/*": ["src/screens/*"],
+      "@navigation/*": ["src/navigation/*"],
+      "@assets/*": ["src/shared/assets/*"],
+      "@components": ["src/shared/components"],
+      "@libs/*": ["src/shared/libs/*"],
+      "@hooks": ["src/shared/hooks"],
+      "@store": ["src/shared/store"],
+      "@constants": ["src/shared/constants"],
+      "@helpers": ["src/shared/helpers"],
+      "@context": ["src/shared/context"],
+      "@types": ["src/shared/types"]
+    },
+    "resolveJsonModule": true,
+    "typeRoots": ["./types", "./node_modules/@types", "../node_modules/@testing-library"],
+    "types": [
+      "jest",
+      "@testing-library/jest-native",
+      "@testing-library/react-native",
+      "node"
+    ],
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["es6"],
+    "allowJs": true,
+    "jsx": "react-native",
+    "noEmit": true,
+    "isolatedModules": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "./dist/**/*"],
+  "ts-node": {
+    "files": true
+  }
+}
