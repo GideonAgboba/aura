@@ -106,118 +106,120 @@ export const MoodPicker: React.FC = () => {
   }, []);
 
   return (
-    <Div
-      className={styles.container}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={(e) => {
-        const relatedTarget = e.relatedTarget as Element | null;
-        if (!relatedTarget) {
-          handlePointerUp();
-        }
-      }}
-    >
-      <ConditionalDiv
-        if={{
-          condition: isHolding,
-          render: (
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 10, opacity: 0 }}
-              transition={TRANSITION_SPRING}
-              className={styles.emojiContainer}
-            >
-              <ConditionalDiv
-                if={{
-                  condition: !!activeReaction,
-                  render: (
-                    <motion.div
-                      initial={{ y: -10, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      className={styles.reactionName}
-                    >
-                      <Text as="span">{activeReaction?.name}</Text>
-                    </motion.div>
-                  ),
-                }}
-              />
-              <Div className={styles.reactionsRow}>
-                {reactions.map((reaction, index) => (
-                  <motion.div
-                    key={reaction.key}
-                    className={styles.reactionItem}
-                    animate={{
-                      scale: selectedIndex === index ? MAX_SCALE : 1,
-                    }}
-                    whileHover={{
-                      scale: selectedIndex === index ? MAX_SCALE : 1.5,
-                    }}
-                    transition={{
-                      scale: {
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20,
-                      },
-                    }}
-                    onHoverStart={() => setSelectedIndex(index)}
-                  >
-                    <Icon name={reaction.icon} width={40} height={40} />
-                  </motion.div>
-                ))}
-              </Div>
-            </motion.div>
-          ),
+    <Div className={styles.container}>
+      <Div
+        className={styles.containerContent}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerLeave={(e) => {
+          const relatedTarget = e.relatedTarget as Element | null;
+          if (!relatedTarget) {
+            handlePointerUp();
+          }
         }}
-      />
+      >
+        <ConditionalDiv
+          if={{
+            condition: isHolding,
+            render: (
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 10, opacity: 0 }}
+                transition={TRANSITION_SPRING}
+                className={styles.emojiContainer}
+              >
+                <ConditionalDiv
+                  if={{
+                    condition: !!activeReaction,
+                    render: (
+                      <motion.div
+                        initial={{ y: -10, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        className={styles.reactionName}
+                      >
+                        <Text as="span">{activeReaction?.name}</Text>
+                      </motion.div>
+                    ),
+                  }}
+                />
+                <Div className={styles.reactionsRow}>
+                  {reactions.map((reaction, index) => (
+                    <motion.div
+                      key={reaction.key}
+                      className={styles.reactionItem}
+                      animate={{
+                        scale: selectedIndex === index ? MAX_SCALE : 1,
+                      }}
+                      whileHover={{
+                        scale: selectedIndex === index ? MAX_SCALE : 1.5,
+                      }}
+                      transition={{
+                        scale: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20,
+                        },
+                      }}
+                      onHoverStart={() => setSelectedIndex(index)}
+                    >
+                      <Icon name={reaction.icon} width={40} height={40} />
+                    </motion.div>
+                  ))}
+                </Div>
+              </motion.div>
+            ),
+          }}
+        />
 
-      <Div className={styles.pickerContent}>
-        <motion.div
-          ref={containerRef}
-          whileTap={{ scale: 0.95 }}
-          className={clsx(
-            styles.moodButton,
-            !!activeReaction && styles.moodButtonNoBg
-          )}
-        >
-          <ConditionalDiv
-            if={{
-              condition: isLoading,
-              render: <Loader />,
-            }}
-            else={
-              <ConditionalDiv
-                if={{
-                  condition: !!activeReaction,
-                  render: (
-                    <Icon
-                      name={activeReaction?.icon}
-                      width={isHolding ? 20 : 60}
-                      height={isHolding ? 20 : 60}
-                    />
-                  ),
-                }}
-                else={
-                  <Text as="span" className={styles.questionMark}>
-                    ?
-                  </Text>
-                }
-              />
-            }
-          />
-        </motion.div>
+        <Div className={styles.pickerContent}>
+          <motion.div
+            ref={containerRef}
+            whileTap={{ scale: 0.95 }}
+            className={clsx(
+              styles.moodButton,
+              !!activeReaction && styles.moodButtonNoBg
+            )}
+          >
+            <ConditionalDiv
+              if={{
+                condition: isLoading,
+                render: <Loader />,
+              }}
+              else={
+                <ConditionalDiv
+                  if={{
+                    condition: !!activeReaction,
+                    render: (
+                      <Icon
+                        name={activeReaction?.icon}
+                        width={isHolding ? 20 : 60}
+                        height={isHolding ? 20 : 60}
+                      />
+                    ),
+                  }}
+                  else={
+                    <Text as="span" className={styles.questionMark}>
+                      ?
+                    </Text>
+                  }
+                />
+              }
+            />
+          </motion.div>
 
-        <Div
-          className={clsx(
-            styles.timerContainer,
-            isDark && styles.timerContainerDark
-          )}
-        >
-          <Text as="span" className={styles.timerText}>
-            Today's Mood
-          </Text>
-          <Timer timer={moment().endOf("day").diff(moment(), "seconds")} />
+          <Div
+            className={clsx(
+              styles.timerContainer,
+              isDark && styles.timerContainerDark
+            )}
+          >
+            <Text as="span" className={styles.timerText}>
+              Today's Mood
+            </Text>
+            <Timer timer={moment().endOf("day").diff(moment(), "seconds")} />
+          </Div>
         </Div>
       </Div>
     </Div>
