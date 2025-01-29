@@ -1,13 +1,5 @@
 import {ReactionInfo, ReactionType} from '@types';
 
-export const SHARED_TRANSITION_TAGS = {
-  SPLASH: {
-    HEADER: {
-      id: '__SPLASH_HEADER',
-    },
-  },
-};
-
 export const SPLASH_SIMILAR_WORDS = [
   'atmosphere',
   'air',
@@ -61,5 +53,3 @@ export const DAILY_INSIGHTS_TEST_IDS = {
   MOOD_TREND: 'mood-trend',
   MOOD_ANALYTICS: 'mood-analytics',
 };
-
-export const BUTTON_PRESS_OPACITY = 0.8;

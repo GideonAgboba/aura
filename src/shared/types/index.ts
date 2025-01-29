@@ -1,18 +1,14 @@
-import {Moment} from 'moment';
+import { Moment } from "moment";
 
 export enum Routes {
-  Splash = 'Splash',
-  Onboarding = 'Onboarding',
-  Home = 'Home',
+  splash = "splash",
+  login = "login",
+  home = "home",
 }
 
-export type RootStackParamList = {
-  [Routes.Splash]: undefined;
-  [Routes.Onboarding]: undefined;
-  [Routes.Home]: undefined;
-};
+export type ColorVariant = "primary" | "secondary" | "info";
 
-export type ColorVariant = 'primary' | 'secondary' | 'info';
+export type Size = "sm" | "md" | "lg" | "xl";
 
 export enum ReactionType {
   SAD = 1,
@@ -30,8 +26,8 @@ export interface InsightMetric {
   id: number;
   value: number;
   label: string;
-  icon: JSX.Element;
-  bgColor: string;
+  icon: React.ReactElement<any, any> | null;
+  bgClass: string;
 }
 
 export interface UserProfile {
@@ -57,16 +53,16 @@ export interface StoreState {
   // User Profile
   user: UserProfile | null;
   setUser: (user: UserProfile | null) => void;
-  updateUserSettings: (settings: Partial<UserProfile['settings']>) => void;
+  updateUserSettings: (settings: Partial<UserProfile["settings"]>) => void;
 
   // Mood Entries
   moodEntries: MoodEntry[];
   setMoodEntries: (entries: MoodEntry[]) => void;
-  addMoodEntry: (entry: Omit<MoodEntry, 'id'>) => void;
+  addMoodEntry: (entry: Omit<MoodEntry, "id">) => void;
   deleteMoodEntry: (id: string) => void;
   getMoodEntriesForDateRange: (
     startDate: Moment,
-    endDate: Moment,
+    endDate: Moment
   ) => MoodEntry[];
 
   // App State
@@ -76,7 +72,7 @@ export interface StoreState {
   resetState: () => void;
 }
 
-export type ViewPeriod = 'daily' | 'weekly' | 'monthly';
+export type DivPeriod = "daily" | "weekly" | "monthly";
 
 export interface MoodTrendData {
   date: Date;
@@ -84,8 +80,8 @@ export interface MoodTrendData {
 }
 
 export enum AppEventType {
-  MOOD_SYNC = 'MOOD_SYNC',
-  ERROR_OCCURRED = 'ERROR_OCCURRED',
+  MOOD_SYNC = "MOOD_SYNC",
+  ERROR_OCCURRED = "ERROR_OCCURRED",
 }
 
 export type AppEventMap = {
@@ -104,13 +100,11 @@ export type EventPayload<T extends AppEventType> = Parameters<
   AppEventMap[T]
 >[0];
 
-export type ThemeMode = 'light' | 'dark' | 'system';
-export type EffectiveTheme = 'light' | 'dark';
+export type ThemeMode = "light" | "dark" | "system";
+export type EffectiveTheme = "light" | "dark";
 
 export interface ThemeContextType {
   theme: ThemeMode;
-  effectiveTheme: EffectiveTheme;
   isDark: boolean;
-  setTheme: (theme: ThemeMode) => void;
   toggleTheme: () => void;
 }

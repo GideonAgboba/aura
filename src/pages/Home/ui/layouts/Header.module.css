@@ -1,0 +1,53 @@
+.container {
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  right: 0rem;
+  background-color: var(--color-bg-primary);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.username {
+  text-transform: capitalize;
+}
+
+.contentWrapper {
+  flex: 1;
+}
+
+.iconButton {
+  padding: 0 5px;
+  border: 0px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: transparent;
+}
+
+.dark .iconButton {
+  border-color: #4b5563;
+}
+
+.input {
+  width: fit-content;
+  background: var(--color-bg-primary);
+  border-style: none !important;
+  border-radius: 0px;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 0px;
+  border-style: none !important;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

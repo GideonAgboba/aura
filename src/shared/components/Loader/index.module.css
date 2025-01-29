@@ -1,0 +1,37 @@
+.loader {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-white);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loaderSm {
+  width: 10px;
+  height: 10px;
+}
+
+.loaderMd {
+  width: 14px;
+  height: 14px;
+}
+
+.loaderLg {
+  width: 16px;
+  height: 16px;
+}
+
+.loaderXl {
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

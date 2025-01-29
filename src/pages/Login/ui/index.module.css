@@ -1,0 +1,101 @@
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.headerSection {
+  text-align: center;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.logoWrapper {
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+.brandContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.brandName {
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.brandPhonetic {
+  font-family: monospace;
+  color: var(--color-primary);
+}
+
+.welcomeText {
+  margin-bottom: 0.5rem;
+}
+
+.greeting {
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+}
+
+.username {
+  font-weight: 600;
+  font-size: 1rem !important;
+  text-transform: capitalize;
+}
+
+.subText {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.input {
+  border-style: none;
+  text-align: center;
+}
+
+.inputSection {
+  width: max-content;
+}
+
+.buttonSection {
+  width: 100%;
+  text-align: center;
+}

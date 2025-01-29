@@ -22,7 +22,7 @@ export const getTimeOfDay = ():
   }
 };
 
-export const getFormattedTime = (date: Date) => moment(date).format('h:mm A');
+export const toValidNumber = (value: number, defaultValue = 0): number => isNaN(value) ? defaultValue : value;
 
 export const getFormattedDate = (date: Date) =>
   moment(date).format('MMM-D-YYYY');
@@ -59,4 +59,9 @@ export const generateRandomMoodEntries = (
   return entries.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
 };
 
+/**
+ * @note
+ * The getRandomNumber number helper function dynamically mocks the user’s mood data as given requested in Technical details (3.):
+ * - Data Handling: Mock the user’s mood data in a local array (e.g., an array of objects with dates and mood scores).
+ */
 export const getRandomNumber = () => Math.floor(Math.random() * 10) + 1;

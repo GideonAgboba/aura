@@ -1,28 +1,30 @@
-import React from 'react';
-import {SvgProps} from 'react-native-svg';
-import SadEmoji from '@assets/images/icons/reactions/sad.svg';
-import NeutralEmoji from '@assets/images/icons/reactions/neutral.svg';
-import HappyEmoji from '@assets/images/icons/reactions/happy.svg';
+import React from "react";
+import { ReactComponent as SadEmoji } from "@assets/images/icons/reactions/sad.svg";
+import { ReactComponent as NeutralEmoji } from "@assets/images/icons/reactions/neutral.svg";
+import { ReactComponent as HappyEmoji } from "@assets/images/icons/reactions/happy.svg";
 
-const ICONS = {
-  'emoji-sad': SadEmoji,
-  'emoji-neutral': NeutralEmoji,
-  'emoji-happy': HappyEmoji,
+type SVGComponent = React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+
+const ICONS: Record<string, SVGComponent> = {
+  "emoji-sad": SadEmoji,
+  "emoji-neutral": NeutralEmoji,
+  "emoji-happy": HappyEmoji,
 };
 
-export interface IconProps extends SvgProps {
-  name: keyof typeof ICONS;
-  width?: string | number;
-  height?: string | number;
+export type IconName = keyof typeof ICONS;
+
+export interface IconProps extends React.SVGProps<SVGSVGElement> {
+  name?: IconName;
+  width?: number;
+  height?: number;
 }
 
-export function Icon(props: IconProps) {
-  const {name, ...restProps} = props;
+export const Icon: React.FC<IconProps> = ({
+  name = "emoji-happy",
+  width = 24,
+  height = 24,
+  ...props
+}) => {
   const SvgIcon = ICONS[name];
-
-  if (!SvgIcon) {
-    return null;
-  }
-
-  return <SvgIcon {...restProps} />;
-}
+  return SvgIcon ? <SvgIcon width={width} height={height} {...props} /> : null;
+};

@@ -1,0 +1,41 @@
+.heading {
+  font-size: 2.25rem;
+  font-weight: bold;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.subHeading {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.normal {
+  font-size: 0.75rem;
+}
+
+.small {
+  font-size: 10px;
+}
+
+.extraSmall {
+  font-size: 8px;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 1.875rem;
+  }
+
+  .header {
+    font-size: 1.25rem;
+  }
+}

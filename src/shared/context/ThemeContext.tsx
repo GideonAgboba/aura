@@ -1,48 +1,39 @@
-import tw from '@libs/tailwind';
-import {useStore} from '@store';
-import {EffectiveTheme, ThemeContextType} from '@types';
-import React from 'react';
-import {useColorScheme} from 'react-native';
-import {useAppColorScheme} from 'twrnc';
+import { ThemeContextType, ThemeMode } from "@types";
+import React, { createContext, useEffect, useState } from "react";
 
-export const ThemeContext = React.createContext<ThemeContextType | undefined>(
-  undefined,
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined
 );
 
-interface ThemeProviderProps {
-  children: React.ReactNode;
-}
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [theme, setTheme] = useState<ThemeMode>(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
+      return savedTheme;
+    }
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  });
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({children}) => {
-  const systemColorScheme = useColorScheme() as EffectiveTheme;
-  const [_c, toggleTwrncColorScheme, setTwrncColorScheme] =
-    useAppColorScheme(tw);
-  const {theme, setTheme} = useStore();
+  const isDark = theme === "dark";
 
-  const effectiveTheme: EffectiveTheme =
-    theme === 'system' ? systemColorScheme : (theme as EffectiveTheme);
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
-  const isDark = effectiveTheme === 'dark';
-
-  React.useLayoutEffect(() => {
-    setTwrncColorScheme(effectiveTheme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const toggleTheme = (): void => {
-    toggleTwrncColorScheme();
-    setTheme(isDark ? 'light' : 'dark');
-  };
-
-  const value: ThemeContextType = {
-    theme,
-    effectiveTheme,
-    isDark,
-    setTheme,
-    toggleTheme,
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ theme, isDark, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
   );
 };

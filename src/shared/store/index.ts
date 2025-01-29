@@ -1,38 +1,11 @@
-/* eslint-disable no-console */
 import {createStore} from 'zustand';
-import {persist, createJSONStorage} from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Platform} from 'react-native';
+import {persist} from 'zustand/middleware';
 import {useEffect, useState} from 'react';
 import {StoreState} from '@types';
 import {getFormattedDate} from '@helpers';
 import moment from 'moment';
 
 const STORAGE_NAME = 'aura-storage';
-
-const storage = {
-  getItem: async (name: string): Promise<string | null> => {
-    try {
-      return await AsyncStorage.getItem(name);
-    } catch {
-      return null;
-    }
-  },
-  setItem: async (name: string, value: string): Promise<void> => {
-    try {
-      await AsyncStorage.setItem(name, value);
-    } catch (error) {
-      console.warn('Storage setItem failed:', error);
-    }
-  },
-  removeItem: async (name: string): Promise<void> => {
-    try {
-      await AsyncStorage.removeItem(name);
-    } catch (error) {
-      console.warn('Storage removeItem failed:', error);
-    }
-  },
-};
 
 export const store = createStore<StoreState>()(
   persist(
@@ -108,9 +81,6 @@ export const store = createStore<StoreState>()(
     }),
     {
       name: STORAGE_NAME,
-      storage: createJSONStorage(() =>
-        Platform.OS === 'android' ? storage : AsyncStorage,
-      ),
       partialize: state => ({
         user: state.user,
         moodEntries: state.moodEntries,
@@ -131,7 +101,9 @@ export const useStoreHydration = () => {
 
   useEffect(() => {
     const unsubscribe = store.persist.onFinishHydration(async () => {
-      setHydrated(true);
+      setTimeout(() => {
+        setHydrated(true);
+      }, 3000); // Little delay
     });
 
     // Trigger initial hydration

@@ -1,8 +1,8 @@
-# Aura - Emotion Tracking & Wellness App
+# Aura - Emotion Tracking & Wellness Web App
 
 ## Overview
 
-Aura is a simple React Native emotion tracking example application designed to help users track, monitor, and understand their emotional well-being. The app provides intuitive mood logging capabilities along with insightful analytics to help users identify patterns in their emotional health.
+Aura is a simple React emotion tracking example webapp designed to help users track, monitor, and understand their emotional well-being. The app provides intuitive mood logging capabilities along with insightful analytics to help users identify patterns in their emotional health. You can locate the mobile version on the [main branch](https://github.com/GideonAgboba/aura/tree/main).
 
 ### Key Features
 
@@ -26,19 +26,21 @@ Aura is a simple React Native emotion tracking example application designed to h
 
 - npm or yarn
 
-- iOS/Android development environment setup
-
-- React Native CLI
-
 ### Installation
 
 1. Clone the repository
 
 ```bash
 
-git clone [repository-url]
 
-cd aura
+
+git clone --branch web https://github.com/GideonAgboba/aura.git
+
+
+
+cd  aura
+
+
 
 ```
 
@@ -46,83 +48,93 @@ cd aura
 
 ```bash
 
-yarn install
+
+
+yarn  install
+
+
 
 # or
 
-npm install
 
-```
 
-3. Install iOS dependencies (iOS only)
+npm  install
 
-```bash
 
-cd ios
-
-pod install
-
-cd ..
 
 ```
 
 ### Running the App
 
-- For iOS:
+Runs the app in the development mode.\
 
-```bash
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-yarn ios
+The page will reload if you make edits.\
 
-# or
-
-npm run ios
-
-```
-
-- For Android:
-
-```bash
-
-yarn android
-
-# or
-
-npm run android
-
-```
+You will also see any lint errors in the console.
 
 ## Project Structure
 
 ```
 
+
+
 src/
 
-├── navigation/  # Navigation configuration
 
-├── screens/  # Screen components
+
+├── navigation/ # Navigation configuration
+
+
+
+├── pages/ # page components
+
+
+
+├── tests/ # test configs
+
+
 
 ├── shared/ # Shared utilities and components
 
-│ ├── assets/  # Images, fonts, etc.
 
-│ ├── components/  # Reusable UI components
+
+│ ├── assets/ # Images, fonts, etc.
+
+
+
+│ ├── components/ # Reusable UI components
+
+
 
 │ ├── constants/ # App constants
 
+
+
 │ ├── context/ # React Context definitions
+
+
 
 │ ├── helpers/ # Helper utilities
 
+
+
 │ ├── hooks/ # Custom hooks
 
-│ ├── libs/  # Third-party library configurations
+
 
 │ ├── store/ # Zustand store
 
+
+
 │ └── types/ # Shared TypeScript types
 
+
+
 └── types/ # Root level TypeScript types
+
+
 
 ```
 
@@ -136,13 +148,9 @@ src/
 
 ### 2. Animation Implementation
 
-Used react-native-reanimated "legacy" shared transitions, acknowledging that Shared Elements Transitions are not yet implemented in React Native's New Architecture. This decision was made to:
+Used framer-motion library and css animation. This decision was made to:
 
 - Provide smooth transitions now
-
-- Maintain compatibility with current architecture
-
-- Enable future migration when New Architecture support is available
 
 ### 3. Event-Driven Architecture
 
@@ -162,11 +170,19 @@ Run the test suite:
 
 ```bash
 
-yarn test
+
+
+yarn  test
+
+
 
 # or
 
-npm test
+
+
+npm  test
+
+
 
 ```
 

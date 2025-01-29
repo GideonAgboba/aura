@@ -1,22 +1,19 @@
 /* eslint-disable react/require-default-props */
-import React, {
+import {
   useCallback,
   useEffect,
   useState,
   useImperativeHandle,
   forwardRef,
   useRef,
-} from 'react';
-import {Text} from './Text';
-import {TextStyle} from 'react-native';
-import tw from '@libs/tailwind';
+} from "react";
+import { Text } from "./Text";
 
 export interface TimerProps {
   timer: number;
-  textStyle?: TextStyle | string;
-  onExpire?: () => void;
   showHours?: boolean;
-  format?: 'full' | 'compact';
+  format?: "full" | "compact";
+  onExpire?: () => void;
 }
 
 export interface TimerRef {
@@ -25,18 +22,18 @@ export interface TimerRef {
 
 const formatNumber = (
   num: number,
-  format: 'full' | 'compact' = 'full',
+  format: "full" | "compact" = "full"
 ): string => {
-  if (format === 'compact' && num < 10) {
+  if (format === "compact" && num < 10) {
     return num.toString();
   }
-  return num.toString().padStart(2, '0');
+  return num.toString().padStart(2, "0");
 };
 
 const formatTime = (
   totalSeconds: number,
   showHours: boolean = false,
-  format: 'full' | 'compact' = 'full',
+  format: "full" | "compact" = "full"
 ): string => {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -44,7 +41,7 @@ const formatTime = (
 
   if (hours > 0 || showHours) {
     return `${formatNumber(hours, format)}:${formatNumber(
-      minutes,
+      minutes
     )}:${formatNumber(seconds)}`;
   }
 
@@ -52,15 +49,12 @@ const formatTime = (
 };
 
 export const Timer = forwardRef<TimerRef, TimerProps>(
-  (
-    {timer, textStyle, onExpire = () => {}, showHours = false, format = 'full'},
-    ref,
-  ) => {
+  ({ timer, onExpire = () => {}, showHours = false, format = "full" }, ref) => {
     const [count, setCount] = useState(timer);
     const clockCall = useRef<NodeJS.Timeout | null>(null);
 
     const decrementClock = useCallback(() => {
-      setCount(prevCount => {
+      setCount((prevCount) => {
         if (prevCount <= 0) {
           if (clockCall.current) {
             clearInterval(clockCall.current);
@@ -95,12 +89,8 @@ export const Timer = forwardRef<TimerRef, TimerProps>(
       };
     }, [decrementClock]);
 
-    return (
-      <Text style={tw.style(textStyle)}>
-        {formatTime(count, showHours, format)}
-      </Text>
-    );
-  },
+    return <Text as="span">{formatTime(count, showHours, format)}</Text>;
+  }
 );
 
-Timer.displayName = 'Timer';
+Timer.displayName = "Timer";

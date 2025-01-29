@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "./",
     "paths": {
-      "@screens/*": ["src/screens/*"],
-      "@navigation/*": ["src/navigation/*"],
+      "@pages/*": ["src/pages/*"],
+      "@navigation": ["src/navigation"],
+      "@tests": ["src/tests"],
       "@assets/*": ["src/shared/assets/*"],
       "@components": ["src/shared/components"],
-      "@libs/*": ["src/shared/libs/*"],
       "@hooks": ["src/shared/hooks"],
       "@store": ["src/shared/store"],
       "@constants": ["src/shared/constants"],
@@ -14,31 +16,21 @@
       "@context": ["src/shared/context"],
       "@types": ["src/shared/types"]
     },
-    "resolveJsonModule": true,
-    "typeRoots": ["./types", "./node_modules/@types", "../node_modules/@testing-library"],
-    "types": [
-      "jest",
-      "@testing-library/jest-native",
-      "@testing-library/react-native",
-      "node"
-    ],
-    "target": "esnext",
-    "module": "commonjs",
-    "lib": ["es6"],
     "allowJs": true,
-    "jsx": "react-native",
-    "noEmit": true,
-    "isolatedModules": true,
-    "strict": true,
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "types": ["jest", "@testing-library/jest-dom", "node"]
   },
-  "include": ["src", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "./dist/**/*"],
-  "ts-node": {
-    "files": true
-  }
+  "include": ["src"]
 }
