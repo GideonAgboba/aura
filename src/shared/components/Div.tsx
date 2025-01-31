@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 interface DivProps extends React.HTMLAttributes<HTMLDivElement> {
   testID?: string;
@@ -9,23 +9,16 @@ interface DivProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Div = React.forwardRef<HTMLDivElement, DivProps>(
   (
-    {
-      style,
-      testID,
-      className = "",
-      container = false,
-      pointerEventDisabled = false,
-      ...props
-    },
-    ref
+    {style, testID, className = '', container = false, pointerEventDisabled = false, ...props},
+    ref,
   ) => {
     const classes = [
-      pointerEventDisabled && "pointer-events-none",
-      container && "container",
+      pointerEventDisabled && 'pointer-events-none',
+      container && 'container',
       className,
     ]
       .filter(Boolean)
-      .join(" ");
+      .join(' ');
 
     return (
       <div
@@ -38,5 +31,5 @@ export const Div = React.forwardRef<HTMLDivElement, DivProps>(
         }}
       />
     );
-  }
+  },
 );

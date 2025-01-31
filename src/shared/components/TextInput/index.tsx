@@ -1,6 +1,6 @@
-import React from "react";
-import styles from "./index.module.css";
-import clsx from "clsx";
+import clsx from 'clsx';
+import React from 'react';
+import styles from './TextInput.module.css';
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -11,14 +11,8 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   (
-    {
-      className = "",
-      fluid = false,
-      pointerEventDisabled = false,
-      isDark = false,
-      ...props
-    },
-    ref
+    {className = '', fluid = false, pointerEventDisabled = false, isDark = false, ...props},
+    ref,
   ) => {
     return (
       <input
@@ -29,10 +23,10 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           isDark && styles.dark,
           fluid && styles.fluid,
           pointerEventDisabled && styles.disabled,
-          className
+          className,
         )}
         {...props}
       />
     );
-  }
+  },
 );

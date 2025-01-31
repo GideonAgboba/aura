@@ -1,6 +1,6 @@
 .container {
   position: absolute;
-  top: 0rem;
+  top: 0.5rem;
   left: 0rem;
   right: 0rem;
   background-color: var(--color-bg-primary);
@@ -11,7 +11,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .username {
@@ -23,7 +23,7 @@
 }
 
 .iconButton {
-  padding: 0 5px;
+  padding: 0px;
   border: 0px solid transparent;
   cursor: pointer;
   transition: all 0.2s;
@@ -39,6 +39,11 @@
   background: var(--color-bg-primary);
   border-style: none !important;
   border-radius: 0px;
+  padding-left: 0px;
+}
+
+.buttonText {
+  --text-color: var(--color-white, white);
 }
 
 .input:focus {

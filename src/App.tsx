@@ -1,6 +1,6 @@
-import { ThemeProvider } from "@context";
-import Navigation from "@navigation";
-import { RouterProvider } from "react-router-dom";
+import {RouterProvider} from 'react-router-dom';
+import {ThemeProvider} from '@context';
+import Navigation from '@navigation';
 
 function App() {
   return (

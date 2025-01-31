@@ -12,7 +12,7 @@
       "@hooks": ["src/shared/hooks"],
       "@store": ["src/shared/store"],
       "@constants": ["src/shared/constants"],
-      "@helpers": ["src/shared/helpers"],
+      "@lib": ["src/shared/lib"],
       "@context": ["src/shared/context"],
       "@types": ["src/shared/types"]
     },

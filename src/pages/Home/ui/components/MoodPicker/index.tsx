@@ -1,48 +1,39 @@
-import React from "react";
-import { motion } from "framer-motion";
-import moment from "moment";
-import styles from "./index.module.css";
-import { ConditionalDiv, Div, Icon, Loader, Text, Timer } from "@components";
-import { useMood, useTheme } from "@hooks";
-import { eventEmitter } from "@helpers";
-import { AppEventType, ReactionType } from "@types";
-import clsx from "clsx";
+import clsx from 'clsx';
+import {motion} from 'framer-motion';
+import moment from 'moment';
+import React from 'react';
+import {ConditionalDiv, Div, Icon, Loader, Text, Timer} from '@components';
+import {REACTIONS} from '@constants';
+import {useMood, useTheme} from '@hooks';
+import {eventEmitter} from '@lib';
+import {AppEventType, ReactionType} from '@types';
+import styles from './MoodPicker.module.css';
 
 const MAX_SCALE = 1.5;
 const HOLD_DURATION = 300;
 const TRANSITION_SPRING = {
-  type: "spring",
+  type: 'spring',
   stiffness: 400,
   damping: 17,
 };
 
-interface Reaction {
-  key: ReactionType;
-  name: string;
-  icon: string;
-}
-
-const reactions: Reaction[] = [
-  { key: ReactionType.SAD, name: "Sad", icon: "emoji-sad" },
-  { key: ReactionType.NEUTRAL, name: "Neutral", icon: "emoji-neutral" },
-  { key: ReactionType.HAPPY, name: "Happy", icon: "emoji-happy" },
-];
-
 export const MoodPicker: React.FC = () => {
-  const { activeEmotion, addMood } = useMood();
-  const { isDark } = useTheme();
+  const {activeEmotion, addMood} = useMood();
+  const {isDark} = useTheme();
   const [isHolding, setIsHolding] = React.useState<boolean>(false);
   const [selectedIndex, setSelectedIndex] = React.useState<number>(-1);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const holdTimeout = React.useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
+  const holdTimeout = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const isDragging = React.useRef(false);
 
-  const activeReaction = reactions[selectedIndex];
+  const activeReaction = REACTIONS[selectedIndex];
 
   const handleClick = React.useCallback(() => {
+    if (activeReaction && activeReaction.type === ReactionType.NEUTRAL) {
+      handlePointerDown();
+      return false;
+    }
     setIsLoading(true);
     addMood(ReactionType.NEUTRAL, () => {
       setIsLoading(false);
@@ -53,7 +44,7 @@ export const MoodPicker: React.FC = () => {
       success: true,
       entries: 1,
     });
-  }, [addMood]);
+  }, [activeReaction, addMood]);
 
   const handleSelection = React.useCallback(
     (reactionType: ReactionType) => {
@@ -65,17 +56,17 @@ export const MoodPicker: React.FC = () => {
         entries: 1,
       });
     },
-    [addMood]
+    [addMood],
   );
 
-  const handlePointerDown = (e: React.PointerEvent) => {
+  const handlePointerDown = () => {
     isDragging.current = false;
     holdTimeout.current = setTimeout(() => {
       setIsHolding(true);
     }, HOLD_DURATION);
   };
 
-  const handlePointerMove = (e: React.PointerEvent) => {
+  const handlePointerMove = () => {
     if (!isHolding || !containerRef.current) return;
 
     isDragging.current = true;
@@ -90,7 +81,7 @@ export const MoodPicker: React.FC = () => {
     if (!isHolding) {
       handleClick();
     } else if (selectedIndex !== -1) {
-      handleSelection(reactions[selectedIndex].key);
+      handleSelection(REACTIONS[selectedIndex].type);
     }
 
     setIsHolding(false);
@@ -99,7 +90,7 @@ export const MoodPicker: React.FC = () => {
 
   React.useEffect(() => {
     const initialSelectedIndex = !!activeEmotion
-      ? reactions.findIndex((r) => r.key === activeEmotion.type)
+      ? REACTIONS.findIndex((r) => r.type === activeEmotion.type)
       : -1;
     setSelectedIndex(initialSelectedIndex);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -124,9 +115,9 @@ export const MoodPicker: React.FC = () => {
             condition: isHolding,
             render: (
               <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 10, opacity: 0 }}
+                initial={{y: 20, opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                exit={{y: 10, opacity: 0}}
                 transition={TRANSITION_SPRING}
                 className={styles.emojiContainer}
               >
@@ -135,8 +126,8 @@ export const MoodPicker: React.FC = () => {
                     condition: !!activeReaction,
                     render: (
                       <motion.div
-                        initial={{ y: -10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
+                        initial={{y: -10, opacity: 0}}
+                        animate={{y: 0, opacity: 1}}
                         className={styles.reactionName}
                       >
                         <Text as="span">{activeReaction?.name}</Text>
@@ -145,9 +136,9 @@ export const MoodPicker: React.FC = () => {
                   }}
                 />
                 <Div className={styles.reactionsRow}>
-                  {reactions.map((reaction, index) => (
+                  {REACTIONS.map((reaction, index) => (
                     <motion.div
-                      key={reaction.key}
+                      key={reaction.type + '--reaction'}
                       className={styles.reactionItem}
                       animate={{
                         scale: selectedIndex === index ? MAX_SCALE : 1,
@@ -157,7 +148,7 @@ export const MoodPicker: React.FC = () => {
                       }}
                       transition={{
                         scale: {
-                          type: "spring",
+                          type: 'spring',
                           stiffness: 300,
                           damping: 20,
                         },
@@ -176,11 +167,8 @@ export const MoodPicker: React.FC = () => {
         <Div className={styles.pickerContent}>
           <motion.div
             ref={containerRef}
-            whileTap={{ scale: 0.95 }}
-            className={clsx(
-              styles.moodButton,
-              !!activeReaction && styles.moodButtonNoBg
-            )}
+            whileTap={{scale: 0.95}}
+            className={clsx(styles.moodButton, !!activeReaction && styles.moodButtonNoBg)}
           >
             <ConditionalDiv
               if={{
@@ -209,16 +197,11 @@ export const MoodPicker: React.FC = () => {
             />
           </motion.div>
 
-          <Div
-            className={clsx(
-              styles.timerContainer,
-              isDark && styles.timerContainerDark
-            )}
-          >
+          <Div className={clsx(styles.timerContainer, isDark && styles.timerContainerDark)}>
             <Text as="span" className={styles.timerText}>
               Today's Mood
             </Text>
-            <Timer timer={moment().endOf("day").diff(moment(), "seconds")} />
+            <Timer timer={moment().endOf('day').diff(moment(), 'seconds')} />
           </Div>
         </Div>
       </Div>
@@ -226,4 +209,4 @@ export const MoodPicker: React.FC = () => {
   );
 };
 
-MoodPicker.displayName = "MoodPicker";
+MoodPicker.displayName = 'MoodPicker';

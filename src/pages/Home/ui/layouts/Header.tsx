@@ -1,25 +1,20 @@
-import { motion } from "framer-motion";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./Header.module.css";
-import clsx from "clsx";
-import { Routes } from "@types";
-import { Button, ConditionalDiv, Div, Text, TextInput } from "@components";
-import {
-  XMarkIcon,
-  UserIcon,
-  MoonIcon,
-  SunIcon,
-} from "@heroicons/react/24/outline";
-import { useTheme, useUser } from "@hooks";
-import { getTimeOfDay } from "@helpers";
+import clsx from 'clsx';
+import {motion} from 'framer-motion';
+import {useNavigate} from 'react-router-dom';
+import React from 'react';
+import {Button, ConditionalDiv, Div, Text, TextInput} from '@components';
+import {MoonIcon, SunIcon, UserIcon, XMarkIcon} from '@heroicons/react/24/outline';
+import {useTheme, useUser} from '@hooks';
+import {getTimeOfDay} from '@lib';
+import {Routes} from '@types';
+import styles from './Header.module.css';
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { isDark, toggleTheme } = useTheme();
-  const { user, logout, updateUser } = useUser();
+  const {isDark, toggleTheme} = useTheme();
+  const {user, logout, updateUser} = useUser();
   const [isEditing, setIsEditing] = React.useState<boolean>(false);
-  const [name, setName] = React.useState<string>(user?.name || "");
+  const [name, setName] = React.useState<string>(user?.name || '');
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const handleToggleEdit = () => {
@@ -29,7 +24,7 @@ export const Header: React.FC = () => {
 
   const handleSave = () => {
     if (user) {
-      updateUser({ ...user, name }, () => setIsEditing(false));
+      updateUser({...user, name}, () => setIsEditing(false));
     }
   };
 
@@ -41,7 +36,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <Div className={clsx(styles.container, isDark && styles.dark, "container")}>
+    <Div className={clsx(styles.container, isDark && styles.dark, 'container')}>
       <Div className={styles.row}>
         <Div className={styles.contentWrapper}>
           <motion.div
@@ -62,10 +57,10 @@ export const Header: React.FC = () => {
               opacity: isEditing ? 1 : 0,
             }}
             style={{
-              display: isEditing ? "inline-block" : "none",
-              position: "absolute",
+              display: isEditing ? 'inline-block' : 'none',
+              position: 'absolute',
               top: 0,
-              width: "100%",
+              width: '100%',
             }}
           >
             <TextInput
@@ -73,12 +68,17 @@ export const Header: React.FC = () => {
               className={styles.input}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleSave()}
+              onKeyPress={(e) => e.key === 'Enter' && handleSave()}
               placeholder="Enter your name"
             />
             <Div className={styles.buttonGroup}>
-              <Button variant="secondary" title="Save" onClick={handleSave} />
-              <Button title="Logout" onClick={handleLogout} />
+              <Button
+                variant="secondary"
+                title="Save"
+                onClick={handleSave}
+                titleStyle={styles.buttonText}
+              />
+              <Button title="Logout" onClick={handleLogout} titleStyle={styles.buttonText} />
             </Div>
           </motion.div>
         </Div>
@@ -107,13 +107,9 @@ export const Header: React.FC = () => {
             <ConditionalDiv
               if={{
                 condition: isDark,
-                render: (
-                  <MoonIcon width={20} height={20} className="text-white" />
-                ),
+                render: <MoonIcon width={20} height={20} className="text-white" />,
               }}
-              else={
-                <SunIcon width={20} height={20} className="text-gray-600" />
-              }
+              else={<SunIcon width={20} height={20} className="text-gray-600" />}
             />
           }
         />

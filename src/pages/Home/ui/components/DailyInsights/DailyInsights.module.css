@@ -27,7 +27,7 @@
 .title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--text-primary);
+  --text-color: var(--color-dark, #111827);
 }
 
 .refreshButton {
@@ -85,21 +85,16 @@
 }
 
 :root {
-  --text-primary: #111827;
-  --hover-bg: #f3f4f6;
   --icon-color: #6b7280;
   --tasks-color: #10b981;
   --mood-color: #f55064;
-  --tasks-bg: #ecfdf5;
-  --mood-bg: #eff6ff;
+  --tasks-bg: var(--color-white, white);
+  --mood-bg: var(--color-white, white);
 }
 
-[data-theme="dark"] {
-  --text-primary: #f9fafb;
-  --hover-bg: #374151;
-  --icon-color: #9ca3af;
-  --tasks-bg: #ffffff;
-  --mood-bg: #ffffff;
+:root[class='dark'] {
+  --tasks-bg: #ecfdf5;
+  --mood-bg: #eff6ff;
 }
 
 @media (max-width: 640px) {

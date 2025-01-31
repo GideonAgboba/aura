@@ -1,9 +1,9 @@
+import moment from 'moment';
 import {createStore} from 'zustand';
 import {persist} from 'zustand/middleware';
 import {useEffect, useState} from 'react';
+import {getFormattedDate} from '@lib';
 import {StoreState} from '@types';
-import {getFormattedDate} from '@helpers';
-import moment from 'moment';
 
 const STORAGE_NAME = 'aura-storage';
 
@@ -12,9 +12,9 @@ export const store = createStore<StoreState>()(
     (set, get) => ({
       // User Profile State & Actions
       user: null,
-      setUser: user => set({user, lastSyncTimestamp: new Date()}),
-      updateUserSettings: settings =>
-        set(state => ({
+      setUser: (user) => set({user, lastSyncTimestamp: new Date()}),
+      updateUserSettings: (settings) =>
+        set((state) => ({
           user: state.user
             ? {
                 ...state.user,
@@ -26,15 +26,15 @@ export const store = createStore<StoreState>()(
 
       // Mood Entries State & Actions
       moodEntries: [],
-      setMoodEntries: entries => {
+      setMoodEntries: (entries) => {
         const {moodEntries} = get();
         set({moodEntries: [...moodEntries, ...entries]});
       },
-      addMoodEntry: entry =>
-        set(state => {
+      addMoodEntry: (entry) =>
+        set((state) => {
           const today = new Date();
           const existingEntryIndex = state.moodEntries.findIndex(
-            m => m.id === getFormattedDate(today),
+            (m) => m.id === getFormattedDate(today),
           );
 
           if (existingEntryIndex !== -1) {
@@ -59,14 +59,14 @@ export const store = createStore<StoreState>()(
             lastSyncTimestamp: new Date(),
           };
         }),
-      deleteMoodEntry: id =>
-        set(state => ({
-          moodEntries: state.moodEntries.filter(entry => entry.id !== id),
+      deleteMoodEntry: (id) =>
+        set((state) => ({
+          moodEntries: state.moodEntries.filter((entry) => entry.id !== id),
           lastSyncTimestamp: new Date(),
         })),
       getMoodEntriesForDateRange: (startDate, endDate) => {
         const {moodEntries} = get();
-        return moodEntries.filter(entry => {
+        return moodEntries.filter((entry) => {
           const timestamp = moment(entry.timestamp);
           return timestamp.isBetween(startDate, endDate, null, '[]');
         });
@@ -74,14 +74,13 @@ export const store = createStore<StoreState>()(
 
       // App State
       theme: 'system',
-      setTheme: theme => set({theme, lastSyncTimestamp: new Date()}),
-      resetState: () =>
-        set({user: null, moodEntries: [], lastSyncTimestamp: null}),
+      setTheme: (theme) => set({theme, lastSyncTimestamp: new Date()}),
+      resetState: () => set({user: null, moodEntries: [], lastSyncTimestamp: null}),
       lastSyncTimestamp: null,
     }),
     {
       name: STORAGE_NAME,
-      partialize: state => ({
+      partialize: (state) => ({
         user: state.user,
         moodEntries: state.moodEntries,
         lastSyncTimestamp: state.lastSyncTimestamp,
@@ -93,8 +92,7 @@ export const store = createStore<StoreState>()(
 
 export const useStore = () => store.getState();
 
-export const purgeStore = async (): Promise<void> =>
-  store.getState().resetState();
+export const purgeStore = async (): Promise<void> => store.getState().resetState();
 
 export const useStoreHydration = () => {
   const [hydrated, setHydrated] = useState(false);
@@ -103,7 +101,7 @@ export const useStoreHydration = () => {
     const unsubscribe = store.persist.onFinishHydration(async () => {
       setTimeout(() => {
         setHydrated(true);
-      }, 3000); // Little delay
+      }, 2500); // Little delay
     });
 
     // Trigger initial hydration

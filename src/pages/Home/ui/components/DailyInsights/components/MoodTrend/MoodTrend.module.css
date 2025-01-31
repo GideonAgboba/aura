@@ -5,12 +5,21 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.text {
-  color: var(--text-primary);
+.textContainer {
+  flex: 1
 }
 
-.header {
+.text {
+  text-align: center;
+  --text-color: var(--color-dark, #111827);
+}
+
+.messageBox {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.buttonText {
+  --text-color: var(--color-white, white);
 }

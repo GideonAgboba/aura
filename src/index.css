@@ -6,11 +6,20 @@
   --color-text-placeholder: #a3a3a3;
   --color-primary: #f55064;
   --color-secondary: #2a2a2b;
-  --color-info: #506cf5;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-info: #3b82f6;
+  --color-warning: #f59e0b;
   --color-card: #f6f6f6;
+  --color-emoji: #f8de40;
+  --color-white: #ffffff;
+  --color-dark: #111827;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #d1d5db;
+  --color-gray-300: #4b5563;
 }
 
-:root[class="dark"] {
+:root[class='dark'] {
   --color-bg-primary: #111827;
   --color-bg-secondary: #1f2937;
   --color-text-primary: #f9fafb;
@@ -26,9 +35,8 @@ body {
   margin: 0;
   overflow-x: hidden;
   background-color: var(--color-bg-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -72,6 +80,14 @@ h5 {
   line-height: 0px;
 }
 
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+}
+
 .text {
-  color: var(--color-text-primary);
+  color: var(--text-color, var(--color-text-primary));
 }

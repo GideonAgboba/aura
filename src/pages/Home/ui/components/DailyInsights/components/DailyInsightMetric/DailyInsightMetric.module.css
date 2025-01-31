@@ -11,13 +11,13 @@
 .value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-primary);
+  --text-color: var(--color-dark, #111827);
   margin: 0.75rem 0 0.25rem;
 }
 
 .label {
   font-size: 0.875rem;
-  color: var(--text-secondary);
+  --text-color: var(--color-gray-300, #4b5563);
   text-align: center;
 }
 
@@ -29,12 +29,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.bgBlue {
-  background-color: var(--blue-100);
-}
-
-.bgGreen {
-  background-color: var(--green-100);
 }

@@ -1,6 +1,6 @@
+import {useCallback} from 'react';
 import {purgeStore, useStore} from '@store';
 import {UserProfile} from '@types';
-import {useCallback} from 'react';
 
 export const useUser = () => {
   const {user, setUser} = useStore();
@@ -12,10 +12,7 @@ export const useUser = () => {
     },
     [setUser],
   );
-  const logout = useCallback(
-    (callback = () => {}) => purgeStore().then(callback),
-    [],
-  );
+  const logout = useCallback((callback = () => {}) => purgeStore().then(callback), []);
 
   return {user, logout, updateUser};
 };

@@ -19,7 +19,7 @@
 }
 
 .dark {
-  color: #ffffff;
+  color: var(--color-white, white);
   background: #1f2937;
   border-color: #374151;
 }

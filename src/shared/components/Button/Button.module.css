@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 52px;
+  height: 40px;
   padding: 0 20px;
   border-radius: 9999px;
   border: none;
@@ -35,17 +35,14 @@
 
 .primary {
   background-color: var(--color-primary);
-  color: #ffffff;
 }
 
 .secondary {
   background-color: var(--color-secondary);
-  color: #ffffff;
 }
 
 .info {
   background-color: var(--color-info);
-  color: #ffffff;
 }
 
 .content {
@@ -69,7 +66,7 @@
 .title {
   font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-white, white);
 }
 
 .button:not(.disabled):not(.loading):hover {

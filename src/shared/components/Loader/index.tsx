@@ -1,27 +1,23 @@
-import React from "react";
-import styles from "./index.module.css";
-import { Size } from "@types";
-import clsx from "clsx";
+import clsx from 'clsx';
+import React from 'react';
+import {Size} from '@types';
+import styles from './Loader.module.css';
 
 interface LoaderProps {
   size?: Size;
   className?: string;
 }
 
-export const Loader: React.FC<LoaderProps> = ({
-  size = "md",
-  className = "",
-  ...props
-}) => {
+export const Loader: React.FC<LoaderProps> = ({size = 'md', className = '', ...props}) => {
   const sizeClass = React.useMemo(() => {
     switch (size) {
-      case "sm":
+      case 'sm':
         return styles.loaderSm;
-      case "md":
+      case 'md':
         return styles.loaderMd;
-      case "lg":
+      case 'lg':
         return styles.loaderLg;
-      case "xl":
+      case 'xl':
         return styles.loaderXl;
 
       default:

@@ -1,14 +1,14 @@
-import { Moment } from "moment";
+import {Moment} from 'moment';
 
 export enum Routes {
-  splash = "splash",
-  login = "login",
-  home = "home",
+  splash = 'splash',
+  login = 'login',
+  home = 'home',
 }
 
-export type ColorVariant = "primary" | "secondary" | "info";
+export type ColorVariant = 'primary' | 'secondary' | 'info';
 
-export type Size = "sm" | "md" | "lg" | "xl";
+export type Size = 'sm' | 'md' | 'lg' | 'xl';
 
 export enum ReactionType {
   SAD = 1,
@@ -53,17 +53,14 @@ export interface StoreState {
   // User Profile
   user: UserProfile | null;
   setUser: (user: UserProfile | null) => void;
-  updateUserSettings: (settings: Partial<UserProfile["settings"]>) => void;
+  updateUserSettings: (settings: Partial<UserProfile['settings']>) => void;
 
   // Mood Entries
   moodEntries: MoodEntry[];
   setMoodEntries: (entries: MoodEntry[]) => void;
-  addMoodEntry: (entry: Omit<MoodEntry, "id">) => void;
+  addMoodEntry: (entry: Omit<MoodEntry, 'id'>) => void;
   deleteMoodEntry: (id: string) => void;
-  getMoodEntriesForDateRange: (
-    startDate: Moment,
-    endDate: Moment
-  ) => MoodEntry[];
+  getMoodEntriesForDateRange: (startDate: Moment, endDate: Moment) => MoodEntry[];
 
   // App State
   theme: ThemeMode;
@@ -72,7 +69,7 @@ export interface StoreState {
   resetState: () => void;
 }
 
-export type DivPeriod = "daily" | "weekly" | "monthly";
+export type DivPeriod = 'daily' | 'weekly' | 'monthly';
 
 export interface MoodTrendData {
   date: Date;
@@ -80,8 +77,8 @@ export interface MoodTrendData {
 }
 
 export enum AppEventType {
-  MOOD_SYNC = "MOOD_SYNC",
-  ERROR_OCCURRED = "ERROR_OCCURRED",
+  MOOD_SYNC = 'MOOD_SYNC',
+  ERROR_OCCURRED = 'ERROR_OCCURRED',
 }
 
 export type AppEventMap = {
@@ -90,21 +87,31 @@ export type AppEventMap = {
     success: boolean;
     entries?: number;
   }) => void;
-  [AppEventType.ERROR_OCCURRED]: (payload: {
-    error: Error;
-    context: string;
-  }) => void;
+  [AppEventType.ERROR_OCCURRED]: (payload: {error: Error; context: string}) => void;
 };
 
-export type EventPayload<T extends AppEventType> = Parameters<
-  AppEventMap[T]
->[0];
+export type EventPayload<T extends AppEventType> = Parameters<AppEventMap[T]>[0];
 
-export type ThemeMode = "light" | "dark" | "system";
-export type EffectiveTheme = "light" | "dark";
+export type ThemeMode = 'light' | 'dark' | 'system';
+export type EffectiveTheme = 'light' | 'dark';
 
 export interface ThemeContextType {
   theme: ThemeMode;
   isDark: boolean;
   toggleTheme: () => void;
+}
+
+export interface ErrorResponse {
+  status: number;
+  statusText: string;
+  data: any;
+  error?: Error;
+  internal: boolean;
+}
+
+export interface MoodTrendAnalysis {
+  message: string;
+  trend: 'improving' | 'declining' | 'stable' | 'variable';
+  severity: 'positive' | 'neutral' | 'concern';
+  fluctuationRate: number;
 }

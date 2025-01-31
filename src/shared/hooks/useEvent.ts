@@ -1,6 +1,6 @@
-import {AppEventType, EventPayload} from '@types';
 import {useEffect} from 'react';
-import {eventEmitter} from '../helpers/eventEmitter';
+import {eventEmitter} from '@lib';
+import {AppEventType, EventPayload} from '@types';
 
 interface UseEventProps<T extends AppEventType> {
   eventType: T;

@@ -1,18 +1,11 @@
 /* eslint-disable react/require-default-props */
-import {
-  useCallback,
-  useEffect,
-  useState,
-  useImperativeHandle,
-  forwardRef,
-  useRef,
-} from "react";
-import { Text } from "./Text";
+import {forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import {Text} from './Text';
 
 export interface TimerProps {
   timer: number;
   showHours?: boolean;
-  format?: "full" | "compact";
+  format?: 'full' | 'compact';
   onExpire?: () => void;
 }
 
@@ -20,36 +13,31 @@ export interface TimerRef {
   reset: () => void;
 }
 
-const formatNumber = (
-  num: number,
-  format: "full" | "compact" = "full"
-): string => {
-  if (format === "compact" && num < 10) {
+const formatNumber = (num: number, format: 'full' | 'compact' = 'full'): string => {
+  if (format === 'compact' && num < 10) {
     return num.toString();
   }
-  return num.toString().padStart(2, "0");
+  return num.toString().padStart(2, '0');
 };
 
 const formatTime = (
   totalSeconds: number,
   showHours: boolean = false,
-  format: "full" | "compact" = "full"
+  format: 'full' | 'compact' = 'full',
 ): string => {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
   if (hours > 0 || showHours) {
-    return `${formatNumber(hours, format)}:${formatNumber(
-      minutes
-    )}:${formatNumber(seconds)}`;
+    return `${formatNumber(hours, format)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
   }
 
   return `${formatNumber(minutes, format)}:${formatNumber(seconds)}`;
 };
 
 export const Timer = forwardRef<TimerRef, TimerProps>(
-  ({ timer, onExpire = () => {}, showHours = false, format = "full" }, ref) => {
+  ({timer, onExpire = () => {}, showHours = false, format = 'full'}, ref) => {
     const [count, setCount] = useState(timer);
     const clockCall = useRef<NodeJS.Timeout | null>(null);
 
@@ -90,7 +78,7 @@ export const Timer = forwardRef<TimerRef, TimerProps>(
     }, [decrementClock]);
 
     return <Text as="span">{formatTime(count, showHours, format)}</Text>;
-  }
+  },
 );
 
-Timer.displayName = "Timer";
+Timer.displayName = 'Timer';

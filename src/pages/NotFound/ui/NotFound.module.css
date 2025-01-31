@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.linkButton {
+  text-decoration: none;
+  color: var(--color-info);
+  font-size: 1rem;
+}
+
+.containerContent {
+  max-width: 50%;
+}
+
+.containerContent h1 {
+  line-height: normal;
+}
+
+@media (max-width: 640px) {
+  .containerContent {
+    max-width: 100%;
+  }
+}

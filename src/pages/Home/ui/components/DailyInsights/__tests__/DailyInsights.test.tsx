@@ -1,24 +1,24 @@
-import { render, screen, act } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { useMood, useEvent, useTheme } from "@hooks";
-import { DAILY_INSIGHTS_TEST_IDS } from "@constants";
-import { AppEventType } from "@types";
-import { DailyInsights } from "..";
-import { getRandomNumber, toValidNumber } from "@helpers";
+import {DAILY_INSIGHTS_TEST_IDS} from '@constants';
+import {useEvent, useMood, useTheme} from '@hooks';
+import {getRandomNumber, toValidNumber} from '@lib';
+import '@testing-library/jest-dom';
+import {act, render, screen} from '@testing-library/react';
+import {AppEventType} from '@types';
+import {DailyInsights} from '..';
 
-jest.mock("@hooks", () => ({
+jest.mock('@hooks', () => ({
   useMood: jest.fn(),
   useEvent: jest.fn(),
   useTheme: jest.fn(),
 }));
 
-jest.mock("@helpers", () => ({
+jest.mock('@lib', () => ({
   getRandomNumber: jest.fn(() => 5),
   toValidNumber: jest.fn((value) => (!isNaN(value) ? value : 0)),
 }));
 
-jest.mock("../MoodTrend", () => ({
-  MoodTrend: ({ testID, data, addRandomMoods }: any) => (
+jest.mock('../components/MoodTrend', () => ({
+  MoodTrend: ({testID, data, addRandomMoods}: any) => (
     <div
       data-testid={testID}
       aria-label="Mood Trend"
@@ -30,27 +30,23 @@ jest.mock("../MoodTrend", () => ({
   ),
 }));
 
-jest.mock("../MoodAnalytics", () => ({
-  MoodAnalytics: ({ testID, data }: any) => (
-    <div
-      data-testid={testID}
-      aria-label="Mood Analytics"
-      data-moodentries={JSON.stringify(data)}
-    >
+jest.mock('../components/MoodAnalytics', () => ({
+  MoodAnalytics: ({testID, data}: any) => (
+    <div data-testid={testID} aria-label="Mood Analytics" data-moodentries={JSON.stringify(data)}>
       Mood Analytics Dashboard
     </div>
   ),
 }));
 
-describe("DailyInsights", () => {
+describe('DailyInsights', () => {
   const mockMoodEntries = [
-    { id: "1", timestamp: new Date(), mood: "Happy", score: 3 },
-    { id: "2", timestamp: new Date(), mood: "Neutral", score: 2 },
+    {id: '1', timestamp: new Date(), mood: 'Happy', score: 3},
+    {id: '2', timestamp: new Date(), mood: 'Neutral', score: 2},
   ];
 
   const mockWeeklyMoods = [
-    { id: "1", timestamp: new Date(), mood: "Happy", score: 3 },
-    { id: "2", timestamp: new Date(), mood: "Sad", score: 1 },
+    {id: '1', timestamp: new Date(), mood: 'Happy', score: 3},
+    {id: '2', timestamp: new Date(), mood: 'Sad', score: 1},
   ];
 
   const defaultProps = {
@@ -62,7 +58,7 @@ describe("DailyInsights", () => {
   beforeEach(() => {
     (useMood as jest.Mock).mockReturnValue(defaultProps);
     (useTheme as jest.Mock).mockImplementation(() => ({
-      theme: "dark",
+      theme: 'dark',
       isDark: true,
       toggleTheme: () => {},
     }));
@@ -70,40 +66,32 @@ describe("DailyInsights", () => {
     (toValidNumber as jest.Mock).mockImplementation((value) => (!isNaN(value) ? value : 0));
   });
 
-  it("renders correctly with initial state", () => {
+  it('renders correctly with initial state', () => {
     render(<DailyInsights />);
 
     expect(screen.getByText(/daily insights/i)).toBeInTheDocument();
     expect(screen.getByText(/tasks completed/i)).toBeInTheDocument();
     expect(screen.getByText(/mood score/i)).toBeInTheDocument();
-    expect(
-      screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.REFRESH_BUTTON)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.MOOD_TREND)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.MOOD_ANALYTICS)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.REFRESH_BUTTON)).toBeInTheDocument();
+    expect(screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.MOOD_TREND)).toBeInTheDocument();
+    expect(screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.MOOD_ANALYTICS)).toBeInTheDocument();
   });
 
-  it("calculates mood score correctly", async () => {
+  it('calculates mood score correctly', async () => {
     render(<DailyInsights />);
 
-    const moodScoreValue = screen.getByTestId(
-      DAILY_INSIGHTS_TEST_IDS.MOOD_SCORE_VALUE
-    );
+    const moodScoreValue = screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.MOOD_SCORE_VALUE);
     expect(Number(moodScoreValue.textContent)).toBe(2);
   });
 
-  it("shows correct number of tasks", () => {
+  it('shows correct number of tasks', () => {
     render(<DailyInsights />);
 
     const tasksValue = screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.TASKS_VALUE);
     expect(Number(tasksValue.textContent)).toBe(5);
   });
 
-  it("handles empty weekly moods", () => {
+  it('handles empty weekly moods', () => {
     (useMood as jest.Mock).mockReturnValue({
       ...defaultProps,
       weeklyMoods: [],
@@ -111,18 +99,16 @@ describe("DailyInsights", () => {
 
     render(<DailyInsights />);
 
-    const moodScoreValue = screen.getByTestId(
-      DAILY_INSIGHTS_TEST_IDS.MOOD_SCORE_VALUE
-    );
+    const moodScoreValue = screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.MOOD_SCORE_VALUE);
     expect(Number(moodScoreValue.textContent)).toBe(0);
   });
 
-  it("updates mood score when weekly moods change", () => {
-    const { rerender } = render(<DailyInsights />);
+  it('updates mood score when weekly moods change', () => {
+    const {rerender} = render(<DailyInsights />);
     const mockDate = new Date();
     const newWeeklyMoods = [
-      { id: "1", timestamp: mockDate, mood: "Happy", score: 4 },
-      { id: "2", timestamp: mockDate, mood: "Happy", score: 4 },
+      {id: '1', timestamp: mockDate, mood: 'Happy', score: 4},
+      {id: '2', timestamp: mockDate, mood: 'Happy', score: 4},
     ];
 
     (useMood as jest.Mock).mockReturnValue({
@@ -132,13 +118,11 @@ describe("DailyInsights", () => {
 
     rerender(<DailyInsights />);
 
-    const moodScoreValue = screen.getByTestId(
-      DAILY_INSIGHTS_TEST_IDS.MOOD_SCORE_VALUE
-    );
+    const moodScoreValue = screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.MOOD_SCORE_VALUE);
     expect(Number(moodScoreValue.textContent)).toBe(4);
   });
 
-  it("registers event handler with correct event type", () => {
+  it('registers event handler with correct event type', () => {
     render(<DailyInsights />);
 
     expect(useEvent).toHaveBeenCalledWith({
@@ -147,16 +131,16 @@ describe("DailyInsights", () => {
     });
   });
 
-  it("handles MOOD_SYNC event", () => {
+  it('handles MOOD_SYNC event', () => {
     let eventHandler: (payload: any) => void;
-    (useEvent as jest.Mock).mockImplementation(({ handler }) => {
+    (useEvent as jest.Mock).mockImplementation(({handler}) => {
       eventHandler = handler;
     });
 
     render(<DailyInsights />);
 
     act(() => {
-      eventHandler({ success: true });
+      eventHandler({success: true});
     });
 
     const tasksValue = screen.getByTestId(DAILY_INSIGHTS_TEST_IDS.TASKS_VALUE);

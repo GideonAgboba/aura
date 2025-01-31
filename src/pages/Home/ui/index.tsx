@@ -2,7 +2,7 @@ import { Div } from "@components";
 import { Header } from "./layouts/Header";
 import { DailyInsights, MoodPicker } from "./components";
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <Div container>
       <Header />

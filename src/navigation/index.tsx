@@ -5,16 +5,17 @@ import {
   Outlet,
   Route,
   useLocation,
-} from "react-router-dom";
-import { useUser } from "@hooks";
-import Login from "@pages/Login/ui";
-import { Routes as AppRoutes } from "@types";
-import Home from "@pages/Home/ui";
-import NotFound from "@pages/NotFound/ui";
-import Layout from "@pages/Layout/ui";
+} from 'react-router-dom';
+import {useUser} from '@hooks';
+import ErrorBox from '@pages/ErrorBox/ui';
+import Home from '@pages/Home/ui';
+import Layout from '@pages/Layout/ui';
+import Login from '@pages/Login/ui';
+import NotFound from '@pages/NotFound/ui';
+import {Routes as AppRoutes} from '@types';
 
 const PrivateRoute = () => {
-  const { user } = useUser();
+  const {user} = useUser();
   const location = useLocation();
 
   if (!user) {
@@ -22,7 +23,7 @@ const PrivateRoute = () => {
       <Navigate
         to={AppRoutes.login}
         state={{
-          message: "You must log in first.",
+          message: 'You must log in first.',
           from: location.pathname,
         }}
         replace
@@ -33,7 +34,7 @@ const PrivateRoute = () => {
 };
 
 const PublicRoute = () => {
-  const { user } = useUser();
+  const {user} = useUser();
 
   if (user) {
     return <Navigate to={AppRoutes.home} replace />;
@@ -43,7 +44,7 @@ const PublicRoute = () => {
 
 const Navigation = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/" element={<Layout />} errorElement={<ErrorBox />}>
       <Route element={<PublicRoute />}>
         <Route index element={<Login />} />
         <Route path={AppRoutes.login} element={<Login />} />
@@ -54,8 +55,8 @@ const Navigation = createBrowserRouter(
         <Route path={AppRoutes.home} element={<Home />} />
       </Route>
       <Route path="*" element={<NotFound />} />
-    </Route>
-  )
+    </Route>,
+  ),
 );
 
 export default Navigation;

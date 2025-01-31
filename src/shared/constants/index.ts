@@ -53,3 +53,11 @@ export const DAILY_INSIGHTS_TEST_IDS = {
   MOOD_TREND: 'mood-trend',
   MOOD_ANALYTICS: 'mood-analytics',
 };
+
+export const TREND_THRESHOLDS = {
+  SIGNIFICANT_CHANGE: 0.5,
+  HIGH_FLUCTUATION: 0.7,
+  MODERATE_FLUCTUATION: 0.4,
+};
+
+export const __DEV__ = process.env.NODE_ENV === 'development';
